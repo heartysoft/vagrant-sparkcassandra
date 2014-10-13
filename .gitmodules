@@ -1,12 +1,12 @@
 [submodule "modules/cassandra"]
 	path = modules/cassandra
 	url = https://github.com/heartysoft/puppet-cassandra
-[submodule ".\\modules\\stdlib"]
-	path = .\\modules\\stdlib
+[submodule "modules/stdlib"]
+	path = modules/stdlib
 	url = https://github.com/puppetlabs/puppetlabs-stdlib
-[submodule ".\\modules\\jdk"]
-	path = .\\modules\\jdk
+[submodule "modules/jdk"]
+	path = modules/jdk
 	url = https://github.com/heartysoft/puppet-jdk
-[submodule ".\\modules\\spark"]
-	path = .\\modules\\spark
+[submodule "modules/spark"]
+	path = modules/spark
 	url = https://github.com/heartysoft/puppet-spark

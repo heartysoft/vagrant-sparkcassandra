@@ -5,16 +5,13 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  (1..3).each do |i|
-
+  (1..1).each do |i|
     config.vm.define "spark#{i}" do |c|
     	c.vm.box = "hashicorp/precise64"
 
     	c.vm.hostname = "spark#{i}"
 
-      c.vm.network "private_network", ip: "192.168.40.#{i+1}", virtualbox__intnet: true
-      
-      c.vm.network "forwarded_port", guest: 9160, host: (1209 + i)
+      c.vm.network "private_network", ip: "192.168.40.#{i+1}"
       c.vm.network "forwarded_port", guest: 8080, host: (1110 + i)
     	
       c.vm.provision "puppet" do |puppet|
@@ -26,8 +23,34 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   	     #vb.gui = true
   	  
   	     # Use VBoxManage to customize the VM. For example to change memory:
-  	     vb.customize ["modifyvm", :id, "--memory", "2048"]
+  	     vb.customize ["modifyvm", :id, "--memory", "1024"]
   	  end
+    end
+
+  end
+
+  (2..3).each do |i|
+    config.vm.define "spark#{i}" do |c|
+      c.vm.box = "hashicorp/precise64"
+
+      c.vm.hostname = "spark#{i}"
+
+      c.vm.network "private_network", ip: "192.168.40.#{i+1}"
+      
+      c.vm.network "forwarded_port", guest: 9160, host: (1209 + i)
+      c.vm.network "forwarded_port", guest: 8081, host: (1110 + i)
+      
+      c.vm.provision "puppet" do |puppet|
+        puppet.module_path = "modules"
+      end 
+
+      c.vm.provider "virtualbox" do |vb|
+         # Don't boot with headless mode
+         #vb.gui = true
+      
+         # Use VBoxManage to customize the VM. For example to change memory:
+         vb.customize ["modifyvm", :id, "--memory", "2048"]
+      end
     end
 
   end

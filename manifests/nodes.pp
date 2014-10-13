@@ -1,11 +1,22 @@
 
-$seeds = '192.168.40.2,192.168.40.3'
-$spark_master = '192.168.40.4'
+$spark_master = '192.168.40.2'
+$seeds = '192.168.40.3,192.168.40.4'
+
 
 #fix needed for puppet 3.7
 #include puppet_templatedir_fix
 
-node 'spark1', 'spark2' {
+node 'spark1' {
+	class { 'jdk': }
+	->
+	class { 'spark':
+		mode => 'master',
+		master_node => $ipaddress_eth1,
+		download_dir => '/vagrant/spark',
+	}
+}
+
+node 'spark2', 'spark3' {
 	class { 'jdk': }
 
 	#package { 'libjna-java':
@@ -33,13 +44,4 @@ node 'spark1', 'spark2' {
 	}
 }
 
-node 'spark3' {
-	class { 'jdk': }
-	->
-	class { 'spark':
-		mode => 'master',
-		master_node => $ipaddress_eth1,
-		download_dir => '/vagrant/spark',
-	}
-}
 

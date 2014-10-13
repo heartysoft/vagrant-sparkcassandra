@@ -7,13 +7,14 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   (1..3).each do |i|
 
-    config.vm.define "cassy#{i}" do |c|
+    config.vm.define "spark#{i}" do |c|
     	c.vm.box = "hashicorp/precise64"
 
-    	c.vm.hostname = "cassy#{i}"
+    	c.vm.hostname = "spark#{i}"
 
-      c.vm.network "private_network", ip: "192.168.50.#{i+1}"
+      c.vm.network "private_network", ip: "192.168.40.#{i+1}"
       c.vm.network "forwarded_port", guest: 9160, host: (1209 + i)
+      c.vm.network "forwarded_port", guest: 8080, host: (1110 + i)
     	
       c.vm.provision "puppet" do |puppet|
     		puppet.module_path = "modules"

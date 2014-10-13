@@ -12,7 +12,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     	c.vm.hostname = "spark#{i}"
 
-      c.vm.network "private_network", ip: "192.168.40.#{i+1}"
+      c.vm.network "private_network", ip: "192.168.40.#{i+1}", virtualbox__intnet: true
+      
       c.vm.network "forwarded_port", guest: 9160, host: (1209 + i)
       c.vm.network "forwarded_port", guest: 8080, host: (1110 + i)
     	
@@ -25,7 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   	     #vb.gui = true
   	  
   	     # Use VBoxManage to customize the VM. For example to change memory:
-  	     vb.customize ["modifyvm", :id, "--memory", "1024"]
+  	     vb.customize ["modifyvm", :id, "--memory", "2048"]
   	  end
     end
 

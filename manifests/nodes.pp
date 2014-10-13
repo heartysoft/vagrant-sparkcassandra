@@ -1,19 +1,19 @@
 
 $seeds = '192.168.40.2,192.168.40.3'
+$spark_master = '192.168.40.4'
 
 #fix needed for puppet 3.7
 #include puppet_templatedir_fix
 
 node 'spark1', 'spark2' {
-	include jdk
+	class { 'jdk': }
 
 	#package { 'libjna-java':
 	#	ensure => "installed",
 	#	before => Class["cassandra"],
 	#}
-
+	->
 	class { 'cassandra':
-		require => Class['jdk'],
 		seeds => $seeds,
 		cassyVersion => "2.1.0",
 		downloadUrl => "http://mirror.ox.ac.uk/sites/rsync.apache.org/cassandra/2.1.0/apache-cassandra-2.1.0-bin.tar.gz",
@@ -24,6 +24,12 @@ node 'spark1', 'spark2' {
 		dc => 'dev1',
 		rack => 'devrack1',
 		backup_root => '/mnt/backups/cassandra',
+	}
+	->
+	class { 'spark':
+		mode => 'worker',
+		master_node => $spark_master,
+		download_dir => '/vagrant/spark',
 	}
 }
 

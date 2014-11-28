@@ -41,6 +41,8 @@ node 'spark2', 'spark3' {
 		mode => 'worker',
 		master_node => $spark_master,
 		download_dir => '/vagrant/spark',
+		max_worker_cores => 2,
+		#max_worker_ram => 512M,
 	}
 }
 

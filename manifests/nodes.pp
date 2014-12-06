@@ -7,6 +7,10 @@ $seeds = '192.168.40.3,192.168.40.4'
 #include puppet_templatedir_fix
 
 node 'spark1' {
+	host { "${spark_driver_hostname}":
+		ip => "${spark_driver_ip}"
+	}
+	->
 	class { 'jdk': }
 	->
 	class { 'spark':
@@ -17,6 +21,10 @@ node 'spark1' {
 }
 
 node 'spark2', 'spark3' {
+	host { "${spark_driver_hostname}":
+		ip => "${spark_driver_ip}"
+	}
+	->
 	class { 'jdk': }
 
 	#package { 'libjna-java':
@@ -26,11 +34,11 @@ node 'spark2', 'spark3' {
 	->
 	class { 'cassandra':
 		seeds => $seeds,
-		cassyVersion => "2.1.0",
-		downloadUrl => "http://mirror.ox.ac.uk/sites/rsync.apache.org/cassandra/2.1.0/apache-cassandra-2.1.0-bin.tar.gz",
+		cassyVersion => "2.1.2",
+		downloadUrl => "http://mirror.ox.ac.uk/sites/rsync.apache.org/cassandra/2.1.2/apache-cassandra-2.1.2-bin.tar.gz",
 		listen_address => $::ipaddress_eth1,
 		broadcast_address => $::ipaddress_eth1,
-		#rpc_address => "0.0.0.0",
+		rpc_address => $::ipaddress_eth1,
 		downloadDir => "/vagrant/cassandra",
 		dc => 'dev1',
 		rack => 'devrack1',

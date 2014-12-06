@@ -7,7 +7,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   (1..1).each do |i|
     config.vm.define "spark#{i}" do |c|
-    	c.vm.box = "hashicorp/precise64"
+    	c.vm.box = "ubuntu/trusty64"
 
     	c.vm.hostname = "spark#{i}"
       
@@ -36,7 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   (2..3).each do |i|
     config.vm.define "spark#{i}" do |c|
-      c.vm.box = "hashicorp/precise64"
+      c.vm.box = "ubuntu/trusty64"
 
       c.vm.hostname = "spark#{i}"
             

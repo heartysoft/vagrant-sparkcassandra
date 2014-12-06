@@ -32,6 +32,14 @@ node 'spark2', 'spark3' {
 	#	before => Class["cassandra"],
 	#}
 	->
+	class { 'spark':
+		mode => 'worker',
+		master_node => $spark_master,
+		download_dir => '/vagrant/spark',
+		max_worker_cores => 2,
+		max_worker_ram => 1G,
+	}
+	->
 	class { 'cassandra':
 		seeds => $seeds,
 		cassyVersion => "2.1.2",
@@ -43,14 +51,6 @@ node 'spark2', 'spark3' {
 		dc => 'dev1',
 		rack => 'devrack1',
 		backup_root => '/mnt/backups/cassandra',
-	}
-	->
-	class { 'spark':
-		mode => 'worker',
-		master_node => $spark_master,
-		download_dir => '/vagrant/spark',
-		max_worker_cores => 2,
-		#max_worker_ram => 512M,
 	}
 }
 

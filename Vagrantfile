@@ -42,8 +42,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             
       c.vm.network "private_network", ip: "192.168.40.#{i+1}"
       
-      c.vm.network "forwarded_port", guest: 9160, host: (1209 + i)
-      c.vm.network "forwarded_port", guest: 8081, host: (1110 + i)
+      c.vm.network "forwarded_port", guest: 9160, host: (9259 + i)
+      c.vm.network "forwarded_port", guest: 8081, host: (8179 + i)
+      c.vm.network "forwarded_port", guest: 9042, host: (9140 + i)
       
       c.vm.provision "puppet" do |puppet|
         puppet.module_path = "modules"
